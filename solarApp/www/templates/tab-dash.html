@@ -1,0 +1,40 @@
+<ion-view title="Dashboard">
+	<ion-content class="padding">
+		<h4><i style="color:orange;font-size:1.3em" class="ion-ios7-sunny"></i>Opbrengst van {{dag}}</h4>
+		<div class="kaart">
+			<div google-chart chart="chart"/></div>
+		</div>
+
+		<div class="list">
+			<p>Data bijgewerkt tot: <strong>{{updatedTime}}</strong>
+				<!--<button class="button button-outline button-positive button-small" ng-click="refreshData()">Refresh</button> {{refresh}}-->
+			<div class="item item-divider">
+				Vandaag
+		  	</div>
+		  	<span class="item" >
+				Acuteel vermogen: <strong>{{actueelvermogen}} W</strong>
+		  	</span>
+		  	<span class="item" >
+				</i>Piekvermogen: <strong>{{piekvermogen}} W</strong>
+		  	</span>
+
+			<span class="item" >
+				Opgewekte Energie: <strong>{{opbrengstVandaag}} kWh</strong>
+			</span>
+			
+			<div class="item item-divider">
+				Totalen
+			</div>	
+			<span class="item" >
+				Opgewekte Energie: <strong>{{totaleEnergie}} kWh</strong>
+			</span>
+			<span class="item">
+				Bespaarde Euro's: <strong>{{getBespaardeEuros()}} &euro;</strong> <small>(prijs per kWh: &euro;{{energieprijs}})</small>
+			</span>
+			
+			<span class="item" >
+				
+			</span>
+		</div>
+	</ion-content>
+</ion-view>
