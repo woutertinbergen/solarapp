@@ -8,8 +8,8 @@ angular.module('starter.controllers', [])
 		$scope.refresh = 'ja';
 		ServerData.update().then(
 			function(data){
-				console.log(data);
-				$scope.setData();	
+	//			console.log(data);
+	//			$scope.setData();	
 			}
 		);
 	}
