@@ -1,4 +1,5 @@
 solarapp
 ========
 
-AngularJS Ionic App to display my revenue from our solarpanels.
+AngularJS Ionic App to display the revenue from our solarpanels.
+[alt tag](screenshot.png)
