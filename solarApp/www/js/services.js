@@ -6,12 +6,10 @@ angular.module('starter.services', [])
 .factory('ServerData' , ['$http', '$q', function($http, $q){
   return{ 
     getDay: function (datum){   
-      console.log(datum);
       var deferred = $q.defer();
       $http({
           method: "get",
           url: "http://www.inspidee.tmp.mysmt.net/solar/day/",
-          //params: 'dag=2014-09-10'
        })
       .success(
           function(html) {
@@ -43,29 +41,6 @@ angular.module('starter.services', [])
         }
       );
       return deferred.promise; 
-
     }
   }  
-}])
-
-.factory('Friends', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var friends = [
-    { id: 0, name: 'Scruff McGruff' },
-    { id: 1, name: 'G.I. Joe' },
-    { id: 2, name: 'Miss Frizzle' },
-    { id: 3, name: 'Ash Ketchum' }
-  ];
-
-  return {
-    all: function() {
-      return friends;
-    },
-    get: function(friendId) {
-      // Simple index lookup
-      return friends[friendId];
-    }
-  }
-});
+}]);

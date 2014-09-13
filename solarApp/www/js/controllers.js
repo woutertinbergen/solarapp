@@ -13,17 +13,13 @@ angular.module('starter.controllers', [])
 			}
 		);
 	}
-
-
 	$scope.setData = function(){
 		ServerData.getDay($scope.datum).then( 
 			function(data){
-				console.log(data);
-				var arrayVermogenVandaag 		= data[0].data.split(",");	
-				/* huidige dag */
-				$scope.dag = moment(data[0].day).format('D MMMM');
-				$scope.updatedTime = moment(data[0].timestamp).calendar();
-				/* variables */
+				var arrayVermogenVandaag 	= data[0].data.split(",");	
+				$scope.dag 					= moment(data[0].day).format('D MMMM');
+				$scope.updatedTime 			= moment(data[0].timestamp).calendar();
+				/* variables CHART*/
 				var chart1 		= {};
 			    chart1.type 	= "LineChart";
 			    chart1.data		= [
@@ -87,7 +83,6 @@ angular.module('starter.controllers', [])
 				  {
 				    return Math.round($scope.energieprijs * $scope.totaleEnergie * 100) / 100  
 				  };
-				//$scope.bespaardeEuros = $scope.energieprijs * $scope.totaleEnergie;
 				/* energie uit index */
 				var dagnummer = data[0].day.substr(8,2);
 				var energieVandaag = energieGegevens[dagnummer-1];
@@ -117,6 +112,6 @@ angular.module('starter.controllers', [])
 	};
 	$scope.setData();
 }])
-
 .controller('AccountCtrl', function($scope) {
+	/* save settings (energy price etc) to localstorage etc */
 });
