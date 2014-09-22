@@ -1,5 +1,17 @@
-<ion-view title="Account">
+<ion-view title="Overzicht">
   <ion-content class="padding">
-    <h1>Account</h1>
+    <h3>Deze maand {{totaleEnergie}}kWh</h3>
+    <div class="chartmonth">
+		<div google-chart chart="chartmonth"/></div>
+	</div>
+	<div class="list">
+		
+		<div class="item item-divider">
+			<strong>Deze maand</strong>
+	  	</div>
+	  	<span class="item" >
+			Hoogste piekvermogen: <span class="item-note"><strong>{{overallPeak}} W</strong></span>
+	  	</span>
+	</div>
   </ion-content>
 </ion-view>

@@ -6,15 +6,18 @@ angular.module('starter.services', [])
 .factory('ServerData' , ['$http', '$q', function($http, $q){
   return{ 
     getDay: function (datum){   
-      console.log(datum);
+     //console.log(datum);
       var deferred = $q.defer();
       $http({
           method: "get",
           url: "http://www.inspidee.tmp.mysmt.net/solar/day/",
-          //params: 'dag=2014-09-10'
+          params: {
+            dag: datum,
+          }
        })
       .success(
           function(html) {
+            //console.log(html);
             deferred.resolve(html);
           }
       ).error(
