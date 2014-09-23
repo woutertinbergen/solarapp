@@ -1,1 +1,10 @@
 /* Empty. Add your own CSS if you like */
+.item-note{
+	font-size: 16px !important;
+	color:#083d06;
+}
+
+.chartmonth{
+	min-height: 200px !important;
+	width:100%;
+}

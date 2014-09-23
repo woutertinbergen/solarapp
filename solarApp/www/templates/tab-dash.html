@@ -4,32 +4,42 @@
 		<div class="kaart">
 			<div google-chart chart="chart"/></div>
 		</div>
-
+		<div class="row" style="text-align:center">
+  			<div class="col">
+				<button class="button button-outline button-positive" ng-click="changeDay('yesterday', '{{datum}}')"><i class="ion-arrow-left-c"></i></button> 
+			</div>
+			<div class="col">
+				<button class="button button-outline button-positive" ng-click="changeDay('tomorrow')"><i class="ion-arrow-right-c"></i></button>
+			</div>
+		</div>
 		<div class="list">
-			<p>Data bijgewerkt tot: <strong>{{updatedTime}}</strong>
-				<!--<button class="button button-outline button-positive button-small" ng-click="refreshData()">Refresh</button> {{refresh}}-->
 			<div class="item item-divider">
-				Vandaag
+				<strong>Gegevens van {{updatedTime}}</strong>
 		  	</div>
-		  	<span class="item" >
-				Acuteel vermogen: <strong>{{actueelvermogen}} W</strong>
+		  	<span class="item" ng-hide="actueelvermogen == 0 ">
+				Actueel vermogen<span class="item-note"><strong>{{actueelvermogen}} W</strong></span>
 		  	</span>
 		  	<span class="item" >
-				</i>Piekvermogen: <strong>{{piekvermogen}} W</strong>
+				</i>Piekvermogen<span class="item-note"><strong>{{piekvermogenVandaag}} W</strong></span>
 		  	</span>
 
 			<span class="item" >
-				Opgewekte Energie: <strong>{{opbrengstVandaag}} kWh</strong>
+				Opgewekte Energie <span class="item-note"><strong>{{opbrengstVandaag}} kWh</strong></span>
 			</span>
 			
 			<div class="item item-divider">
-				Totalen
+				Totalen sinds 9 september 2014
 			</div>	
 			<span class="item" >
-				Opgewekte Energie: <strong>{{totaleEnergie}} kWh</strong>
+				Opgewekte energie <span class="item-note"><strong>{{totaleEnergie}} kWh</strong></span>
 			</span>
 			<span class="item">
-				Bespaarde Euro's: <strong>{{getBespaardeEuros()}} &euro;</strong> <small>(prijs per kWh: &euro;{{energieprijs}} ) </small>
+				Bespaard <span class="item-note"><strong>&euro; {{getBespaardeEuros()}}</strong></span>
+			</span>
+			<span class="item">
+				ROI <span class="item-note">
+						<strong>{{getRoi()}} %</strong>
+				    </span>
 			</span>
 		</div>
 	</ion-content>

@@ -10,9 +10,13 @@ angular.module('starter.services', [])
       $http({
           method: "get",
           url: "http://www.inspidee.tmp.mysmt.net/solar/day/",
+          params: {
+            dag: datum,
+          }
        })
       .success(
           function(html) {
+            //console.log(html);
             deferred.resolve(html);
           }
       ).error(

@@ -42,7 +42,7 @@ angular.module('starter', ['ionic','googlechart','angularMoment', 'starter.contr
       views: {
         'tab-account': {
           templateUrl: 'templates/tab-account.html',
-          controller: 'AccountCtrl'
+          controller: 'MonthCtrl'
         }
       }
     });
