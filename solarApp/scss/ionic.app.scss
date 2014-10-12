@@ -20,11 +20,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
-@import "www/scss/mix-fadein";
+//@import "mix-fadein";
 
 .kaart .chart{
 	min-height:200px;
 	background-color:#fff;
-	@include fadeIn(1s);
+//	@include fadeIn(1s);
 }
 
