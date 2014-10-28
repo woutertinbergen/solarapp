@@ -1,8 +1,4 @@
 angular.module('starter.services', [])
-
-/**
- * A simple example service that returns some data.
- */
 .factory('ServerData' , ['$http', '$q', function($http, $q){
   return{ 
     getDay: function (datum){   
@@ -16,18 +12,16 @@ angular.module('starter.services', [])
        })
       .success(
           function(html) {
-            //console.log(html);
             deferred.resolve(html);
           }
       ).error(
         function(html){
-          console.log('3 error');
+         // do nothing.
         }
       );
       return deferred.promise; 
     },
     update: function(datum){
-      console.log('update');
       var deferred = $q.defer();
       $http({
           method: "get",
@@ -35,16 +29,35 @@ angular.module('starter.services', [])
        })
       .success(
           function(html) {
-            console.log('ok'+html);
             deferred.resolve(html);
           }
       ).error(
         function(html){
-          //console.log(html);
-          console.log('3 error');
+          // do nothing.
         }
       );
       return deferred.promise; 
     }
   }  
-}]);
+}])
+
+.factory('Settings' , [ '$http','$q', function($http, $q){
+  var constants = null;
+  return{
+    getConstants : function(){
+       var deferred = $q.defer();
+       $http({
+        method: 'get',
+        url: 'content/constants.json'}).success(function(data){
+              deferred.resolve(data);
+            }
+        ).error(
+          function(data){
+            // do nothing.
+          }
+        );
+      return deferred.promise; 
+    } 
+  } 
+}
+]);

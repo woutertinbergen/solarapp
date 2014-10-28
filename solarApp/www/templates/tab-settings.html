@@ -1,24 +1,11 @@
-<ion-view title="Overzicht {{maand}} : {{totaleEnergieDezeMaand}}kWh">
-  <ion-content class="padding" on-swipe-left="changeMonth('next')" on-swipe-right="changeMonth('previous')">
-    <div class="chartmonth" >
-		<div google-chart chart="chartmonth"/></div>
-	</div>
-	<div class="list">
-		<div class="item item-divider">
-			<strong>Overzicht</strong>
-	  	</div>
-	  	<span class="item" >
-			In {{maand}} bespaard <span class="item-note"><strong>&euro;{{totaleEnergieDezeMaand *0.23 | number:2}}</strong></span>
-	  	</span>
-	  	<span class="item" >
-			Totale opbrengst tm {{maand | limitTo:3}}<span class="item-note"><strong>{{totaleEnergie}}kWh </strong></span>
-	  	</span>
-	  	<span class="item" >
-			Totaal bespaard (9-9-2014)<span class="item-note"><strong>&euro;{{totaleEnergie *0.23 | number:2}}</strong></span>
-	  	</span>
-	  	<span class="item" >
-			Max vermogen installatie: <span class="item-note"><strong>{{overallPeak}} W</strong></span>
-	  	</span>
-	</div>
-  </ion-content>
+<ion-view title="Instellingen">
+	<ion-content class="padding">
+	<h4>Instellingen</h4>
+		<div class="list">
+		  	<span class="item">
+				Energieprijs voor berekeningen<span class="item-note"><strong> &euro; <input type="text" value="{{energieprijs}}" /> per kWh</strong></span>
+		  	</span>
+		  
+		</div>
+	</ion-content>
 </ion-view>

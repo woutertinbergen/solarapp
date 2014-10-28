@@ -1,18 +1,34 @@
 angular.module('starter.controllers', ['LocalStorageModule'])
 
-.controller('DashCtrl', ['$scope', '$timeout','ServerData','localStorageService', function($scope, $timeout, ServerData,localStorageService) {
+.controller('SettingsCtrl',['$scope','Settings', function($scope, Settings){
+	Settings.getConstants().then(
+		function(data){
+			$scope.energieprijs = data.energyprice;
+			$scope.startdate	= data.startdate;
+			;
+	 	}
+	 );
+
+}])
+
+.controller('DashCtrl', ['$scope', '$timeout','ServerData','localStorageService','Settings', function($scope, $timeout, ServerData,localStorageService, Settings) {
 	var tempGegegvens=[];
-	$scope.energieprijs = 0.23;
+	Settings.getConstants().then(
+		function(data){
+			$scope.energieprijs = data.energyprice;
+	 	}
+	 );
 	$scope.datum = moment().format('YYYY-MM-DD');
 	$scope.vorigeZichtbaar = true;
 	$scope.volgendeZichtbaar = false;
 	$scope.vandaag = moment().format('YYYY-MM-DD');
 	$scope.changeDay = function(direction){
 		if(direction=="yesterday"){
-			if(moment($scope.datum).subtract(1, 'days').isAfter(moment('2014-09-08'))){
+			console.log($scope.startdate);
+			if(moment($scope.datum).subtract(1, 'days').isAfter(moment('2014-09-09'))){
 				$scope.datum = moment($scope.datum).subtract(1, 'days').format('YYYY-MM-DD').toString();
 			}else{
-				//console.log('ken niet eerder');
+				console.log('ken niet eerder');
 			}
 		}else{
 			if(moment($scope.datum).add(1, 'days').isBefore(moment())){
@@ -138,9 +154,14 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	$scope.setData($scope.vandaag);
 }])
 
-.controller('MonthCtrl', ['$scope', '$timeout','ServerData','localStorageService', function($scope, $timeout, ServerData,localStorageService) {
+.controller('MonthCtrl', ['$scope', '$timeout','ServerData','localStorageService','Settings', function($scope, $timeout, ServerData,localStorageService, Settings) {
 	var tempGegegvens=[];
-	$scope.energieprijs = 0.23;
+	Settings.getConstants().then(
+		function(data){
+			$scope.energieprijs = data.energyprice;
+			;
+	 	}
+	 );
 	$scope.datum = '2014-09-08'; // startdatum
 	$scope.vorigeZichtbaar = true;
 	$scope.volgendeZichtbaar = false;
@@ -165,7 +186,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			}
 			$scope.setMonthData($scope.datum);
 		}else{
-			console.log('next?');
 			if(moment($scope.datum).add(1, 'month').isBefore(moment(),'month') || moment($scope.datum).add(1, 'month').isSame(moment(),'month') ){
 				if(moment($scope.datum).add(1, 'month').isSame(moment(),'month')){
 					$scope.datum = moment().format('YYYY-MM-DD');
