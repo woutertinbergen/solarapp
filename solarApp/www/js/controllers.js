@@ -3,7 +3,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 .controller('DashCtrl', ['$scope', '$timeout','ServerData','localStorageService', function($scope, $timeout, ServerData,localStorageService) {
 	var tempGegegvens=[];
 	$scope.energieprijs = 0.23;
-	$scope.datum = '2014-09-09'; // startdatum
+	$scope.datum = moment().format('YYYY-MM-DD');
 	$scope.vorigeZichtbaar = true;
 	$scope.volgendeZichtbaar = false;
 	$scope.vandaag = moment().format('YYYY-MM-DD');
@@ -156,7 +156,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	}
 
 	$scope.changeMonth = function(direction){
-		if(direction=="previous"){
+		if(direction==="previous"){
 			if(moment($scope.datum).subtract(1, 'month').isAfter(moment('2014-09-08'))){
 				$scope.datum = moment($scope.datum).subtract(1, 'month').format('YYYY-MM-DD').toString();
 
@@ -165,6 +165,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			}
 			$scope.setMonthData($scope.datum);
 		}else{
+			console.log('next?');
 			if(moment($scope.datum).add(1, 'month').isBefore(moment(),'month') || moment($scope.datum).add(1, 'month').isSame(moment(),'month') ){
 				if(moment($scope.datum).add(1, 'month').isSame(moment(),'month')){
 					$scope.datum = moment().format('YYYY-MM-DD');
