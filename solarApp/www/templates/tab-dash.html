@@ -1,16 +1,7 @@
-<ion-view title="Dashboard">
-	<ion-content class="padding">
-		<h4><i style="color:orange;font-size:1.3em" class="ion-ios7-sunny"></i>Opbrengst van {{dag}}</h4>
+<ion-view title="Opbrengst van {{dag}}">
+	<ion-content class="padding" on-swipe-left="changeDay('yesterday')" on-swipe-right="changeMonth('tomorrow')">
 		<div class="kaart">
 			<div google-chart chart="chart"/></div>
-		</div>
-		<div class="row" style="text-align:center">
-  			<div class="col">
-				<button class="button button-outline button-positive" ng-click="changeDay('yesterday', '{{datum}}')"><i class="ion-arrow-left-c"></i></button> 
-			</div>
-			<div class="col">
-				<button class="button button-outline button-positive" ng-click="changeDay('tomorrow')"><i class="ion-arrow-right-c"></i></button>
-			</div>
 		</div>
 		<div class="list">
 			<div class="item item-divider">

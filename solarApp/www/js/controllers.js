@@ -11,7 +11,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		if(direction=="yesterday"){
 			if(moment($scope.datum).subtract(1, 'days').isAfter(moment('2014-09-08'))){
 				$scope.datum = moment($scope.datum).subtract(1, 'days').format('YYYY-MM-DD').toString();
-
 			}else{
 				//console.log('ken niet eerder');
 			}
@@ -150,11 +149,8 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		if(angular.isDefined(givendate)){
 			// andere maand --> laatste dag voor totalen.
 			var lastDate = moment(givendate).endOf("month").format("YYYY-MM-DD");
-			console.log(lastDate);
 			$scope.setData(lastDate);
 		}else{
-			console.log('geen datum');
-			// deze maand
 			$scope.setData();
 		}
 	}
@@ -171,7 +167,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		}else{
 			if(moment($scope.datum).add(1, 'month').isBefore(moment(),'month') || moment($scope.datum).add(1, 'month').isSame(moment(),'month') ){
 				if(moment($scope.datum).add(1, 'month').isSame(moment(),'month')){
-					console.log('eee');
 					$scope.datum = moment().format('YYYY-MM-DD');
 					$scope.setMonthData();
 				}else{
@@ -190,7 +185,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		$scope.datum = dedatum; // startdatum
 		ServerData.getDay(dedatum).then( 
 			function(data){
-				console.log(data);
 				var arrayVermogenVandaag 		= data[0].data.split(",");	
 				var arrayEnergyMonth			= data[0].energie_dag.split(",");	
 				/* huidige dag */
@@ -250,7 +244,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 					if(moment(key).isBefore(moment(dedatum).format('YYYY-MM'))){
 						$scope.totaleEnergie += parseFloat(value);
 					}else{
-						console.log('komt er bij');
+						//console.log('komt er bij');
 					}
 				})
 				$scope.maand = moment(dedatum).format("MMMM");

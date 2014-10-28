@@ -37,11 +37,11 @@ angular.module('starter', ['ionic','googlechart','angularMoment', 'starter.contr
         }
       }
     })
-    .state('tab.account', {
-      url: '/account',
+    .state('tab.settings', {
+      url: '/settings',
       views: {
-        'tab-account': {
-          templateUrl: 'templates/tab-account.html',
+        'tab-settings': {
+          templateUrl: 'templates/tab-settings.html',
           controller: 'MonthCtrl'
         }
       }
