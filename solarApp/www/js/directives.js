@@ -6,7 +6,7 @@ angular.module('starter.directives', ['LocalStorageModule'])
         scope: {
             value: '='
         },
-        template: '<span ng-click="edit()" ng-bind="value"></span><input ng-model="value"></input>&nbsp;<i ng-click="edit()" class="ion-edit"></i>',
+        template: '<span ng-click="edit()" ng-bind="value"></span><input ng-model="value" type="number"></input>&nbsp;<i ng-click="edit()" class="ion-edit"></i>',
         link: function ($scope, element, attrs) {
             var inputElement = angular.element(element.children()[1]);
             element.addClass('edit-in-place');
