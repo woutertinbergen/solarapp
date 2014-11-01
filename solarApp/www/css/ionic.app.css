@@ -3665,6 +3665,8 @@ a.subdued {
 /* Active state for tab */
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
   opacity: 1; }
+  .tab-item.tab-item-active .icon, .tab-item.active .icon, .tab-item.activated .icon {
+    color: #008000 !important; }
   .tab-item.tab-item-active.tab-item-light, .tab-item.active.tab-item-light, .tab-item.activated.tab-item-light {
     color: #fff; }
   .tab-item.tab-item-active.tab-item-stable, .tab-item.active.tab-item-stable, .tab-item.activated.tab-item-stable {

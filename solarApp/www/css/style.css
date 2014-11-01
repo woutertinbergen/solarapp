@@ -1,4 +1,4 @@
-/* Empty. Add your own CSS if you like */
+/* Quick hacks*/
 .item-note{
 	font-size: 16px !important;
 	color:#083d06;
@@ -7,4 +7,19 @@
 .chartmonth{
 	min-height: 200px !important;
 	width:100%;
+}
+.edit-in-place span {
+    cursor: pointer;
+}
+.edit-in-place input {
+    display: none;
+}
+.edit-in-place.active span {
+    display: none;
+}
+.edit-in-place.active input {
+    display: inline-block;
+    font-size: 18px;
+    width: 60px;
+    padding: 5px 7px;
 }

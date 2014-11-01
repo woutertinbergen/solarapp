@@ -1,23 +1,17 @@
 angular.module('starter.controllers', ['LocalStorageModule'])
 
-.controller('SettingsCtrl',['$scope','Settings', function($scope, Settings){
-	Settings.getConstants().then(
-		function(data){
-			$scope.energieprijs = data.energyprice;
-			$scope.startdate	= data.startdate;
-			;
-	 	}
-	 );
-
-}])
-
 .controller('DashCtrl', ['$scope', '$timeout','ServerData','localStorageService','Settings', function($scope, $timeout, ServerData,localStorageService, Settings) {
 	var tempGegegvens=[];
-	Settings.getConstants().then(
-		function(data){
-			$scope.energieprijs = data.energyprice;
-	 	}
-	 );
+	if(angular.isUndefined(localStorageService.get('energieprijs'))){
+		Settings.getConstants().then(
+			function(data){
+				$scope.energieprijs = data.energyprice;
+				;
+		 	}
+		 );
+	}else{
+		$scope.energieprijs = localStorageService.get('energieprijs');
+	}
 	$scope.datum = moment().format('YYYY-MM-DD');
 	$scope.vorigeZichtbaar = true;
 	$scope.volgendeZichtbaar = false;
@@ -156,12 +150,16 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 
 .controller('MonthCtrl', ['$scope', '$timeout','ServerData','localStorageService','Settings', function($scope, $timeout, ServerData,localStorageService, Settings) {
 	var tempGegegvens=[];
-	Settings.getConstants().then(
-		function(data){
-			$scope.energieprijs = data.energyprice;
-			;
-	 	}
-	 );
+	if(angular.isUndefined(localStorageService.get('energieprijs'))){
+		Settings.getConstants().then(
+			function(data){
+				$scope.energieprijs = data.energyprice;
+				;
+		 	}
+		 );
+	}else{
+		$scope.energieprijs = localStorageService.get('energieprijs');
+	}
 	$scope.datum = '2014-09-08'; // startdatum
 	$scope.vorigeZichtbaar = true;
 	$scope.volgendeZichtbaar = false;
@@ -206,6 +204,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		$scope.datum = dedatum; // startdatum
 		ServerData.getDay(dedatum).then( 
 			function(data){
+
 				var arrayVermogenVandaag 		= data[0].data.split(",");	
 				var arrayEnergyMonth			= data[0].energie_dag.split(",");	
 				/* huidige dag */
@@ -215,7 +214,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 				var chart1 		= {};
 			    chart1.type 	= "ColumnChart";
 			    chart1.data		= [
-							       	['Tijd(uren)', 'Vermogen (kW)']
+							       	['Tijd(dagen)', 'Vermogen (kW)']
 							      ];
 				chart1.options 	= {
 							        displayExactValues: true,
@@ -249,10 +248,12 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			    // end of vars
 			    // prepare data for Chart
 				for (index = 0; index < (arrayEnergyMonth.length-1); ++index) {
-					chart1.data.push([index,parseFloat(arrayEnergyMonth[index])]);
+					console.log(arrayEnergyMonth[index]);
+					chart1.data.push([index+1,parseFloat(arrayEnergyMonth[index])]);
 				};
 			    // assign chart
 			    $scope.chartmonth = chart1;
+
 
 				// Calculate PeakPower for Today		    
 			    $scope.piekvermogen = Math.max.apply(Math, arrayVermogenVandaag); // 99
@@ -358,4 +359,62 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	}
 	initApp();
 	init();
+}])
+
+.controller('SettingsCtrl', ['$scope','$ionicPopup','$timeout', 'Settings','localStorageService', 
+	function($scope, $ionicPopup, $timeout, Settings,localStorageService){
+	
+	$scope.energieprijs = localStorageService.get('energieprijs');
+	
+	var test = localStorageService.get('energieprijs');
+	console.log(test);
+	if(test ==="" || test ==='undefined' || test ===null){
+		console.log('tru');
+		Settings.getConstants().then(
+			function(data){
+				$scope.energieprijs = data.energyprice;
+		 	}
+		 );
+	}else{
+		console.log('false');
+		
+		console.log(this.energieprijs);
+		if($scope.energieprijs ===""){
+				$scope.energieprijs = 0.23;
+				localStorageService.set('energieprijs', 0.23);
+		}
+	}
+  
+  $scope.showPopup = function() {
+  	var oldValue  = $scope.energieprijs;
+  	$scope.test = {price: $scope.energieprijs}
+  	$scope.energieprijs_localstorage = localStorageService.get('energieprijs');
+   	var myPopup = $ionicPopup.show({
+	     template: '<input type="number" ng-model="test.price" />',
+	     title: 'Pas je energieprijs aan',
+	     subTitle: 'In hele euros, met een punt.',
+	     scope: $scope,
+	     buttons: [
+	       	{ text: 'Annuleer',
+	       	 	onTap: function(e) {
+	         		return oldValue
+	        	}
+	   		},
+	       	{
+	         	text: '<b>Bewaar</b>',
+	         	type: 'button-positive',
+	         	onTap: function(e) {
+	         		return $scope.test.price;
+	            }
+	       },
+	     ]
+	});
+   	myPopup.then(function(myPopup) {
+	   	$scope.energieprijs= myPopup.toString();
+	   	localStorageService.set('energieprijs',$scope.energieprijs);
+	   	});
+	};
+	$scope.data = {
+		showDelete: false
+	};
 }]);

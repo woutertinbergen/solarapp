@@ -355,7 +355,9 @@
 .tab-item.active,
 .tab-item.activated {
   opacity: 1;
-
+  .icon{
+    color: #008000 !important; 
+  }
   &.tab-item-light {
     color: $light;
   }
