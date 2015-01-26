@@ -26,18 +26,18 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			}
 		}else{
 			if(moment($scope.datum).add(1, 'days').isBefore(moment())){
-				$scope.datum = moment($scope.datum).add(1, 'days').format('YYYY-MM-DD').toString();	
+				$scope.datum = moment($scope.datum).add(1, 'days').format('YYYY-MM-DD').toString();
 			}else{
 				//console.log('ken niet');
-			}		
+			}
 		}
 		$scope.setData($scope.datum);
 	}
 	$scope.setData = function(dedatum){
 		$scope.datum = dedatum; // startdatum
-		ServerData.getDay(dedatum).then( 
+		ServerData.getDay(dedatum).then(
 			function(data){
-				var arrayVermogenVandaag 		= data[0].data.split(",");	
+				var arrayVermogenVandaag 		= data[0].data.split(",");
 				/* huidige dag */
 				$scope.dag = moment(data[0].day).format('D MMMM');
 				$scope.updatedTime = moment(data[0].timestamp).calendar();
@@ -56,7 +56,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 								    },
 								    axisTitlesPosition:'in',
 								    hAxis: {
-								    		title: 'Tijd in uren',  
+								    		title: 'Tijd in uren',
 								    		titleTextStyle: {color: '#333'},
 								    		textPosition:'in',
 								    		gridlines:{count:12},
@@ -88,35 +88,35 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			    // assign chart
 			    $scope.chart = chart1;
 
-				// Calculate PeakPower for Today		    
+				// Calculate PeakPower for Today
 			    $scope.piekvermogenVandaag = Math.max.apply(Math, arrayVermogenVandaag); // 99
-		        
+
 			    var peakPowerOverall = localStorageService.get('peakPowerOverall');
 			    //console.log(peakPowerOverall);
 			    if($scope.piekvermogenVandaag > peakPowerOverall || peakPowerOverall === null ){
-			    	localStorageService.set('peakPowerOverall', $scope.piekvermogenVandaag);	
+			    	localStorageService.set('peakPowerOverall', $scope.piekvermogenVandaag);
 			    }
 			    //localStorageService.set('peakPowerOverall',);
-				//$scope.overallPeak = peakPowerOverall;	
+				//$scope.overallPeak = peakPowerOverall;
 
 		        /* energie total is available in $data */
 		        var energieGegevens 	= data[0].energie_dag.split(",");
-		        
+
 		        $scope.totaleEnergie=0;
-		        for(var i in energieGegevens) { 
-					$scope.totaleEnergie += parseFloat(energieGegevens[i]); 
+		        for(var i in energieGegevens) {
+					$scope.totaleEnergie += parseFloat(energieGegevens[i]);
 				}
 				// round it
-				$scope.totaleEnergie = Math.round($scope.totaleEnergie * 100) / 100  
+				$scope.totaleEnergie = Math.round($scope.totaleEnergie * 100) / 100
 
 				// totaal geld bespaard
 				$scope.getBespaardeEuros = function ()
 				  {
-				    return Math.round($scope.energieprijs * $scope.totaleEnergie * 100) / 100  
+				    return Math.round($scope.energieprijs * $scope.totaleEnergie * 100) / 100
 				  };
 				$scope.getRoi = function ()
 				  {
-				    return Math.round(100*$scope.getBespaardeEuros() / 38)/100  
+				    return Math.round(100*$scope.getBespaardeEuros() / 38)/100
 				  };
 				/* energie uit index */
 				var dagnummer = data[0].day.substr(8,2);
@@ -189,24 +189,23 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 					$scope.datum = moment().format('YYYY-MM-DD');
 					$scope.setMonthData();
 				}else{
-					$scope.datum = moment($scope.datum).add(1, 'month').format('YYYY-MM-DD').toString();		
+					$scope.datum = moment($scope.datum).add(1, 'month').format('YYYY-MM-DD').toString();
 					$scope.setMonthData($scope.datum);
 				}
 			}else{
 				//console.log('ken niet');
 			}
-			
+
 		}
-		
+
 	}
 
 	$scope.setData = function(dedatum){
 		$scope.datum = dedatum; // startdatum
-		ServerData.getDay(dedatum).then( 
+		ServerData.getDay(dedatum).then(
 			function(data){
-
-				var arrayVermogenVandaag 		= data[0].data.split(",");	
-				var arrayEnergyMonth			= data[0].energie_dag.split(",");	
+				var arrayVermogenVandaag 		= data[0].data.split(",");
+				var arrayEnergyMonth			= data[0].energie_dag.split(",");
 				/* huidige dag */
 				$scope.dag = moment(data[0].day).format('D MMMM');
 				$scope.updatedTime = moment(data[0].timestamp).calendar();
@@ -218,10 +217,9 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 							      ];
 				chart1.options 	= {
 							        displayExactValues: true,
-							        
 								    axisTitlesPosition:'in',
 								    hAxis: {
-								    		title: 'Tijd in dagen',  
+								    		title: 'Tijd in dagen',
 								    		titleTextStyle: {color: '#333'},
 								    		textPosition:'in',
 								    		gridlines:{count:31},
@@ -248,17 +246,17 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			    // end of vars
 			    // prepare data for Chart
 				for (index = 0; index < (arrayEnergyMonth.length-1); ++index) {
-					console.log(arrayEnergyMonth[index]);
+					//console.log(arrayEnergyMonth[index]);
 					chart1.data.push([index+1,parseFloat(arrayEnergyMonth[index])]);
 				};
 			    // assign chart
 			    $scope.chartmonth = chart1;
 
 
-				// Calculate PeakPower for Today		    
+				// Calculate PeakPower for Today
 			    $scope.piekvermogen = Math.max.apply(Math, arrayVermogenVandaag); // 99
 		        $scope.overallPeak = localStorageService.get('peakPowerOverall');
-		        
+
 		        $scope.totaleEnergie=0;
 		        $scope.totaleEnergieDezeMaand = 0;
 		        // haal totaal tot deze maand
@@ -270,9 +268,9 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 					}
 				})
 				$scope.maand = moment(dedatum).format("MMMM");
-		        for(var i in arrayEnergyMonth) { 
-		        	$scope.totaleEnergieDezeMaand += parseFloat(arrayEnergyMonth[i]); 
-					$scope.totaleEnergie += parseFloat(arrayEnergyMonth[i]); 
+		        for(var i in arrayEnergyMonth) {
+		        	$scope.totaleEnergieDezeMaand += parseFloat(arrayEnergyMonth[i]);
+					$scope.totaleEnergie += parseFloat(arrayEnergyMonth[i]);
 				}
 				// round it
 				$scope.totaleEnergieDezeMaand = Math.round($scope.totaleEnergieDezeMaand * 100) / 100  ;
@@ -281,7 +279,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 				// totaal geld bespaard
 				$scope.getBespaardeEuros = function ()
 				  {
-				    return Math.round($scope.energieprijs * $scope.totaleEnergie * 100) / 100  
+				    return Math.round($scope.energieprijs * $scope.totaleEnergie * 100) / 100
 				  };
 				/* huidig vermogen */
 				var index = arrayVermogenVandaag.length -5; // there are 4 emtpy leading zero's...
@@ -305,7 +303,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			}
 		);
 	};
-
 	var init = function(){
 		initApp();
 		$scope.setData($scope.vandaag);
@@ -313,7 +310,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 
 	var getMonthsBeforeToday = function(datum){
 		var thismonth		= moment(datum).format("YYYY")+'-'+moment(datum).format("MM");;
-				
+
 		var start = moment("2014-09", "YYYY-MM");
 		var end   = moment(thismonth, "YYYY-MM");
 		var range = moment().range(start, end);
@@ -325,9 +322,9 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	  		}else{
 	  			// laatste dag van de maanden ervoor
 	  			querydates.push(moment.endOf("month").format('YYYY-MM-DD'));
-	  		}	
+	  		}
 		});
-		return querydates;	
+		return querydates;
 	};
 
 	var initApp = function(){
@@ -343,15 +340,15 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		var daysToRetrieve = getMonthsBeforeToday(today);
 		$scope.totals = {};
 		daysToRetrieve.forEach(function(dag) {
-		    ServerData.getDay(dag).then( 
+		    ServerData.getDay(dag).then(
 		    	function(data){
 			    	var dezemaandtotaal=0;
-			    	var arrayEnergyMonth	= data[0].energie_dag.split(",");	
-			    	for(var i in arrayEnergyMonth) { 
-						dezemaandtotaal += parseFloat(arrayEnergyMonth[i]); 
+			    	var arrayEnergyMonth	= data[0].energie_dag.split(",");
+			    	for(var i in arrayEnergyMonth) {
+						dezemaandtotaal += parseFloat(arrayEnergyMonth[i]);
 					}
 
-					$scope.totals[moment(dag).format('YYYY-MM')] = dezemaandtotaal;	
+					$scope.totals[moment(dag).format('YYYY-MM')] = dezemaandtotaal;
 					localStorageService.set('totalen',JSON.stringify($scope.totals));
 		    	}
 		    );
@@ -360,61 +357,102 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	initApp();
 	init();
 }])
+.controller('MonthlyTotals', ['$scope', '$timeout','ServerData','localStorageService','Settings', function($scope, $timeout, ServerData,localStorageService, Settings) {
+	ServerData.getMonthTotals().then(
+		function(data){
+			/* variables */
+			var chart1 		= {};
+		    chart1.type 	= "ColumnChart";
+		    chart1.data		= [
+						       	['Tijd(maanden)', 'Vermogen (kW)']
+						      ];
+			chart1.options 	= {
+						        displayExactValues: true,
+							    axisTitlesPosition:'in',
+							    hAxis: {
+							    		title: 'Tijd in maanden',
+							    		titleTextStyle: {color: '#333'},
+							    		textPosition:'in',
+							    		// gridlines:{count:10},
+							    		viewWindowMode:'explicit',
+							    		viewWindow:{
+							                max:12,
+							                min:1
+							              } },
+							    vAxis :{title: 'Opbrengst in kWh',  titleTextStyle: {color: '#333'}, textPosition:'in',
+				              },
 
-.controller('SettingsCtrl', ['$scope','$ionicPopup','$timeout', 'Settings','localStorageService', 
+							    is3D: false,
+							    width:"100%",
+							    colors:['green'],
+						        chartArea: {left:0,top:0,bottom:0,height:"90%", width:"100%"}
+		    };
+		    chart1.formatters = {
+							      number : [{
+							        columnNum: 1,
+							        pattern: " #,##0"
+							      }]
+		    };
+		    var data_edit = data;
+		    angular.forEach(data, function(value, key){
+				chart1.data.push([value.month,parseFloat(value.monthly_total)]);
+				data_edit[key].month = moment(value.month).format('MMM YYYY');
+			})
+		    $scope.chartmonth = chart1;
+		    $scope.data = data_edit.reverse();
+		});
+	}]
+)
+.controller('SettingsCtrl', ['$scope','$ionicPopup','$timeout', 'Settings','localStorageService',
 	function($scope, $ionicPopup, $timeout, Settings,localStorageService){
-	
+
 	$scope.energieprijs = localStorageService.get('energieprijs');
-	
+
 	var test = localStorageService.get('energieprijs');
-	console.log(test);
 	if(test ==="" || test ==='undefined' || test ===null){
-		console.log('tru');
 		Settings.getConstants().then(
 			function(data){
 				$scope.energieprijs = data.energyprice;
 		 	}
 		 );
 	}else{
-		console.log('false');
-		
-		console.log(this.energieprijs);
 		if($scope.energieprijs ===""){
 				$scope.energieprijs = 0.23;
 				localStorageService.set('energieprijs', 0.23);
 		}
 	}
-  
-  $scope.showPopup = function() {
-  	var oldValue  = $scope.energieprijs;
-  	$scope.test = {price: $scope.energieprijs}
-  	$scope.energieprijs_localstorage = localStorageService.get('energieprijs');
-   	var myPopup = $ionicPopup.show({
-	     template: '<input type="number" ng-model="test.price" />',
-	     title: 'Pas je energieprijs aan',
-	     subTitle: 'In hele euros, met een punt.',
-	     scope: $scope,
-	     buttons: [
-	       	{ text: 'Annuleer',
-	       	 	onTap: function(e) {
-	         		return oldValue
-	        	}
-	   		},
-	       	{
-	         	text: '<b>Bewaar</b>',
-	         	type: 'button-positive',
-	         	onTap: function(e) {
-	         		return $scope.test.price;
-	            }
-	       },
-	     ]
-	});
-   	myPopup.then(function(myPopup) {
-	   	$scope.energieprijs= myPopup.toString();
-	   	localStorageService.set('energieprijs',$scope.energieprijs);
-	   	});
-	};
-	$scope.data = {
-		showDelete: false
-	};
-}]);
+
+  	$scope.showPopup = function() {
+	  	var oldValue  = $scope.energieprijs;
+	  	$scope.test = {price: $scope.energieprijs}
+	  	$scope.energieprijs_localstorage = localStorageService.get('energieprijs');
+	   	var myPopup = $ionicPopup.show({
+		     template: '<input type="number" ng-model="test.price" />',
+		     title: 'Pas je energieprijs aan',
+		     subTitle: 'In hele euros, met een punt.',
+		     scope: $scope,
+		     buttons: [
+		       	{ text: 'Annuleer',
+		       	 	onTap: function(e) {
+		         		return oldValue
+		        	}
+		   		},
+		       	{
+		         	text: '<b>Bewaar</b>',
+		         	type: 'button-positive',
+		         	onTap: function(e) {
+		         		return $scope.test.price;
+		            }
+		       },
+		    ]
+		});
+	   	myPopup.then(function(myPopup) {
+		   	$scope.energieprijs= myPopup.toString();
+		   	localStorageService.set('energieprijs',$scope.energieprijs);
+		   	});
+		};
+		$scope.data = {
+			showDelete: false
+		};
+	}
+]);

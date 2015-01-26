@@ -1,0 +1,17 @@
+<ion-view title="Overzicht">
+  <ion-content class="padding" on-swipe-left="changeMonth('next')" on-swipe-right="changeMonth('previous')">
+    <div class="chartmonth" >
+		<div google-chart chart="chartmonth"/></div>
+	</div>
+	<div class="list">
+		<div class="item item-divider">
+			<strong>Overzicht</strong>
+	  	</div>
+		<span ng-repeat="item in data" class="item">
+			{{item.month | date :'MMM'}} :  
+			{{item.monthly_total | number:2}} kWh
+			<span class="item-note"><strong>{{item.subtotal | number:2}} kWh</strong></span>
+		</span>
+	</div>
+  </ion-content>
+</ion-view>

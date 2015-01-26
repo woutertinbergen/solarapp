@@ -37,10 +37,26 @@ angular.module('starter.services', [])
         }
       );
       return deferred.promise; 
+    },
+    getMonthTotals: function(){
+      var deferred = $q.defer();
+      $http({
+          method: "get",
+          url: "http://www.inspidee.tmp.mysmt.net/solar/month/",
+       })
+      .success(
+          function(html) {
+            deferred.resolve(html);
+          }
+      ).error(
+        function(html){
+          // do nothing.
+        }
+      );
+      return deferred.promise; 
     }
-  }  
+  }
 }])
-
 .factory('Settings' , [ '$http','$q', function($http, $q){
   var constants = null;
   return{

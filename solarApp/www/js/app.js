@@ -53,6 +53,14 @@ angular.module('starter', ['ionic','googlechart','angularMoment', 'starter.contr
           controller: 'SettingsCtrl'
         }
       }
+    }).state('tab.totalsMonth', {
+      url: '/months',
+      views: {
+        'tab-months': {
+          templateUrl: 'templates/tab-months.html',
+          controller: 'MonthlyTotals'
+        }
+      }
     });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');
