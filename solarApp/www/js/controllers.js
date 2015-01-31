@@ -364,7 +364,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			var chart1 		= {};
 		    chart1.type 	= "ColumnChart";
 		    chart1.data		= [
-						       	['Tijd(maanden)', 'Vermogen (kW)']
+						       	['Tijd(maanden)', 'Opbrengst (kWh)']
 						      ];
 			chart1.options 	= {
 						        displayExactValues: true,
@@ -373,11 +373,11 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 							    		title: 'Tijd in maanden',
 							    		titleTextStyle: {color: '#333'},
 							    		textPosition:'in',
-							    		// gridlines:{count:10},
+							    		gridlines:{count:10},
 							    		viewWindowMode:'explicit',
 							    		viewWindow:{
 							                max:12,
-							                min:1
+							                min:0
 							              } },
 							    vAxis :{title: 'Opbrengst in kWh',  titleTextStyle: {color: '#333'}, textPosition:'in',
 				              },
@@ -395,7 +395,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		    };
 		    var data_edit = data;
 		    angular.forEach(data, function(value, key){
-				chart1.data.push([value.month,parseFloat(value.monthly_total)]);
+		    	chart1.data.push([value.month,parseFloat(value.monthly_total)]);
 				data_edit[key].month = moment(value.month).format('MMM YYYY');
 			})
 		    $scope.chartmonth = chart1;
