@@ -7662,3 +7662,9 @@ a.button {
 .kaart .chart {
   min-height: 200px;
   background-color: #fff; }
+
+.padding {
+  background: #FCFBF4; }
+
+.tabs {
+  background: #E7F7EA; }

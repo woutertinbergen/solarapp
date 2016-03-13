@@ -3,10 +3,12 @@
 		<div class="kaart">
 			<div google-chart chart="chart"/></div>
 		</div>
-		<div class="list">
+		<div ng-if="error.message" class="assertive">{{error.message}}</div>
+		<div ng-if="!error.message" class="list">
 			<div class="item item-divider">
 				<strong>Gegevens van {{updatedTime}}</strong>
 		  	</div>
+
 		  	<span class="item" ng-hide="actueelvermogen == 0 ">
 				Actueel vermogen<span class="item-note"><strong>{{actueelvermogen}} W</strong></span>
 		  	</span>

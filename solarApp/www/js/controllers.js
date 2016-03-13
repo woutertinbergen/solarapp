@@ -18,7 +18,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	$scope.vandaag = moment().format('YYYY-MM-DD');
 	$scope.changeDay = function(direction){
 		if(direction=="yesterday"){
-			console.log($scope.startdate);
 			if(moment($scope.datum).subtract(1, 'days').isAfter(moment('2014-09-09'))){
 				$scope.datum = moment($scope.datum).subtract(1, 'days').format('YYYY-MM-DD').toString();
 			}else{
@@ -35,111 +34,119 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	}
 	$scope.setData = function(dedatum){
 		$scope.datum = dedatum; // startdatum
+		$scope.dag = moment(dedatum).format('D MMMM');
+		console.log($scope.dag);
+		$scope.error = {};
 		ServerData.getDay(dedatum).then(
 			function(data){
-				var arrayVermogenVandaag 		= data[0].data.split(",");
-				/* huidige dag */
-				$scope.dag = moment(data[0].day).format('D MMMM');
-				$scope.updatedTime = moment(data[0].timestamp).calendar();
-				/* variables */
-
-				var chart1 		= {};
-			    chart1.type 	= "LineChart";
-			    chart1.data		= [
-							       	['Tijd(uren)', 'Vermogen (kW)']
-							      ];
-				chart1.options 	= {
-							        displayExactValues: true,
-							        explorer: {
-								        maxZoomOut:2,
-								        keepInBounds: true
-								    },
-								    axisTitlesPosition:'in',
-								    hAxis: {
-								    		title: 'Tijd in uren',
-								    		titleTextStyle: {color: '#333'},
-								    		textPosition:'in',
-								    		gridlines:{count:12},
-								    		viewWindowMode:'explicit',
-								    		viewWindow:{
-								                max:22,
-								                min:6
-								              } },
-								    vAxis :{title: 'Vermogen in kW',  titleTextStyle: {color: '#333'}, textPosition:'in',
-					              },
-
-								    is3D: true,
-								    width:"100%",
-								    colors:['green'],
-							        chartArea: {left:0,top:0,bottom:0,height:"90%", width:"100%"}
-			    };
-			    chart1.formatters = {
-								      number : [{
-								        columnNum: 1,
-								        pattern: " #,##0"
-								      }]
-			    };
-
-			    // end of vars
-			    // prepare data for Chart
-				for (index = 0; index < (arrayVermogenVandaag.length-1); ++index) {
-					chart1.data.push([(index*(1/6)),parseFloat(arrayVermogenVandaag[index])]);
-				};
-			    // assign chart
-			    $scope.chart = chart1;
-
-				// Calculate PeakPower for Today
-			    $scope.piekvermogenVandaag = Math.max.apply(Math, arrayVermogenVandaag); // 99
-
-			    var peakPowerOverall = localStorageService.get('peakPowerOverall');
-			    //console.log(peakPowerOverall);
-			    if($scope.piekvermogenVandaag > peakPowerOverall || peakPowerOverall === null ){
-			    	localStorageService.set('peakPowerOverall', $scope.piekvermogenVandaag);
-			    }
-			    //localStorageService.set('peakPowerOverall',);
-				//$scope.overallPeak = peakPowerOverall;
-
-		        /* energie total is available in $data */
-		        var energieGegevens 	= data[0].energie_dag.split(",");
-
-		        $scope.totaleEnergie=0;
-		        for(var i in energieGegevens) {
-					$scope.totaleEnergie += parseFloat(energieGegevens[i]);
+				if (typeof data === "undefined" || data.length === 0) {
+					$scope.error.message = "Helaas is er geen data voor vandaag";
 				}
-				// round it
-				$scope.totaleEnergie = Math.round($scope.totaleEnergie * 100) / 100
+				else{
+					var arrayVermogenVandaag 		= data[0].data.split(",");
+					/* huidige dag */
+					$scope.dag = moment(data[0].day).format('D MMMM');
+					$scope.updatedTime = moment(data[0].timestamp).calendar();
+					/* variables */
 
-				// totaal geld bespaard
-				$scope.getBespaardeEuros = function ()
-				  {
-				    return Math.round($scope.energieprijs * $scope.totaleEnergie * 100) / 100
-				  };
-				$scope.getRoi = function ()
-				  {
-				    return Math.round(100*$scope.getBespaardeEuros() / 38)/100
-				  };
-				/* energie uit index */
-				var dagnummer = data[0].day.substr(8,2);
-				var energieVandaag = energieGegevens[dagnummer-1];
-				$scope.opbrengstVandaag = energieVandaag;
+					var chart1 		= {};
+				    chart1.type 	= "LineChart";
+				    chart1.data		= [
+								       	['Tijd(uren)', 'Vermogen (kW)']
+								      ];
+					chart1.options 	= {
+								        displayExactValues: true,
+								        explorer: {
+									        maxZoomOut:2,
+									        keepInBounds: true
+									    },
+									    axisTitlesPosition:'in',
+									    hAxis: {
+									    		title: 'Tijd in uren',
+									    		titleTextStyle: {color: '#333'},
+									    		textPosition:'in',
+									    		gridlines:{count:12},
+									    		viewWindowMode:'explicit',
+									    		viewWindow:{
+									                max:22,
+									                min:6
+									              } },
+									    vAxis :{title: 'Vermogen in kW',  titleTextStyle: {color: '#333'}, textPosition:'in',
+						              },
 
-				/* huidig vermogen */
-				var index = arrayVermogenVandaag.length -5; // there are 4 emtpy leading zero's...
-				$scope.actueelvermogen = arrayVermogenVandaag[index];
-				var tempCount=0;
-				for (var i = arrayVermogenVandaag.length; i-- > 0; ){
-					if(arrayVermogenVandaag[i] =="0"){
-						tempCount++;
-						if(tempCount>10){
-							$scope.nacht = true;
-							$scope.actueelvermogen = '0';
-							return; // blijbaar nacht.
+									    is3D: true,
+									    width:"100%",
+									    colors:['green'],
+								        chartArea: {left:0,top:0,bottom:0,height:"90%", width:"100%"}
+				    };
+				    chart1.formatters = {
+									      number : [{
+									        columnNum: 1,
+									        pattern: " #,##0"
+									      }]
+				    };
+
+				    // end of vars
+				    // prepare data for Chart
+					for (index = 0; index < (arrayVermogenVandaag.length-1); ++index) {
+						chart1.data.push([(index*(1/6)),parseFloat(arrayVermogenVandaag[index])]);
+					};
+				    // assign chart
+				    $scope.chart = chart1;
+
+					// Calculate PeakPower for Today
+				    $scope.piekvermogenVandaag = Math.max.apply(Math, arrayVermogenVandaag); // 99
+
+				    var peakPowerOverall = localStorageService.get('peakPowerOverall');
+				    //console.log(peakPowerOverall);
+				    if($scope.piekvermogenVandaag > peakPowerOverall || peakPowerOverall === null ){
+				    	localStorageService.set('peakPowerOverall', $scope.piekvermogenVandaag);
+				    }
+				    //localStorageService.set('peakPowerOverall',);
+					//$scope.overallPeak = peakPowerOverall;
+
+			        /* energie total is available in $data */
+			        var energieGegevens 	= data[0].energie_dag.split(",");
+
+			        $scope.totaleEnergie=0;
+			        for(var i in energieGegevens) {
+						$scope.totaleEnergie += parseFloat(energieGegevens[i]);
+					}
+					// round it
+					$scope.totaleEnergie = Math.round($scope.totaleEnergie * 100) / 100
+
+					// totaal geld bespaard
+					$scope.getBespaardeEuros = function ()
+					  {
+					    return Math.round($scope.energieprijs * $scope.totaleEnergie * 100) / 100
+					  };
+					$scope.getRoi = function ()
+					  {
+					    return Math.round(100*$scope.getBespaardeEuros() / 38)/100
+					  };
+					/* energie uit index */
+					var dagnummer = data[0].day.substr(8,2);
+					var energieVandaag = energieGegevens[dagnummer-1];
+					$scope.opbrengstVandaag = energieVandaag;
+
+					/* huidig vermogen */
+					var index = arrayVermogenVandaag.length -5; // there are 4 emtpy leading zero's...
+					$scope.actueelvermogen = arrayVermogenVandaag[index];
+					var tempCount=0;
+					for (var i = arrayVermogenVandaag.length; i-- > 0; ){
+						if(arrayVermogenVandaag[i] =="0"){
+							tempCount++;
+							if(tempCount>10){
+								$scope.nacht = true;
+								$scope.actueelvermogen = '0';
+								return; // blijbaar nacht.
+							}else{
+								continue;
+							}
 						}else{
-							continue;
+							$scope.actueelvermogen = arrayVermogenVandaag[i];
+							return; // stop maar.
 						}
-					}else{
-						$scope.actueelvermogen = arrayVermogenVandaag[i];
-						return; // stop maar.
 					}
 				}
 			}
@@ -395,7 +402,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		    };
 		    var data_edit = data;
 		    angular.forEach(data, function(value, key){
-		    	chart1.data.push([value.month,parseFloat(value.monthly_total)]);
+		    	chart1.data.push([moment(value.month).format('M-\'YY'),parseFloat(value.monthly_total)]);
 				data_edit[key].month = moment(value.month).format('MMM YYYY');
 			})
 		    $scope.chartmonth = chart1;

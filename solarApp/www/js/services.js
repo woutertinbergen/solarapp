@@ -5,7 +5,7 @@ angular.module('starter.services', [])
       var deferred = $q.defer();
       $http({
           method: "get",
-          url: "http://www.inspidee.tmp.mysmt.net/solar/day/",
+          url: "https://tofspeelgoed.com/solar/day/",
           params: {
             dag: datum,
           }
@@ -25,7 +25,7 @@ angular.module('starter.services', [])
       var deferred = $q.defer();
       $http({
           method: "get",
-          url: "http://www.inspidee.tmp.mysmt.net/solar/",
+          url: "https://tofspeelgoed.com/solar/",
        })
       .success(
           function(html) {
@@ -42,7 +42,7 @@ angular.module('starter.services', [])
       var deferred = $q.defer();
       $http({
           method: "get",
-          url: "http://www.inspidee.tmp.mysmt.net/solar/month/",
+          url: "https://tofspeelgoed.com/solar/month/",
        })
       .success(
           function(html) {
