@@ -380,17 +380,18 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 							    		title: 'Tijd in maanden',
 							    		titleTextStyle: {color: '#333'},
 							    		textPosition:'in',
-							    		gridlines:{count:10},
+							    		gridlines:{count:50},
 							    		viewWindowMode:'explicit',
 							    		viewWindow:{
-							                max:12,
+							                max: 50,
 							                min:0
-							              } },
+							              }
+							       },
 							    vAxis :{title: 'Opbrengst in kWh',  titleTextStyle: {color: '#333'}, textPosition:'in',
 				              },
 
 							    is3D: false,
-							    width:"100%",
+							    // width:"100%",
 							    colors:['green'],
 						        chartArea: {left:0,top:0,bottom:0,height:"90%", width:"100%"}
 		    };
@@ -405,7 +406,10 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		    	chart1.data.push([moment(value.month).format('M-\'YY'),parseFloat(value.monthly_total)]);
 				data_edit[key].month = moment(value.month).format('MMM YYYY');
 			})
+			console.log(chart1.data);
+		    chart1.options.hAxis.viewWindow.max = chart1.data.length;
 		    $scope.chartmonth = chart1;
+
 		    $scope.data = data_edit.reverse();
 		});
 	}]
