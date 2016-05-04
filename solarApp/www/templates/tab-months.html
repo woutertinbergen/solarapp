@@ -1,6 +1,6 @@
 <ion-view title="Overzicht">
   <ion-content class="padding" on-swipe-left="changeMonth('next')" on-swipe-right="changeMonth('previous')">
-    <ion-scroll zooming="false" direction="xy" style="height:'200px'; width:1200px">
+    <ion-scroll zooming="false" direction="xy" style="height:'600px'; width:1200px">
 	    <div class="chartmonth" >
 			<div google-chart chart="chartmonth"/></div>
 		</div>
@@ -9,7 +9,7 @@
 		<div class="item item-divider">
 			<strong>Overzicht</strong>
 	  	</div>
-		<span ng-repeat="item in data" class="item" font>
+		<span ng-repeat="item in data" class="item">
 			{{item.month | date :'MMM'}} :  
 			{{item.monthly_total | number:2}} kWh
 			<span class="item-note"><strong>{{item.subtotal | number:2}} kWh</strong></span>

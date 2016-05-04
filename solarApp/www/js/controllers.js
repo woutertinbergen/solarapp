@@ -2,6 +2,9 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 
 .controller('DashCtrl', ['$scope', '$timeout','ServerData','localStorageService','Settings', function($scope, $timeout, ServerData,localStorageService, Settings) {
 	var tempGegegvens=[];
+
+	var getLastYear
+
 	if(angular.isUndefined(localStorageService.get('energieprijs'))){
 		Settings.getConstants().then(
 			function(data){
@@ -21,7 +24,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 			if(moment($scope.datum).subtract(1, 'days').isAfter(moment('2014-09-09'))){
 				$scope.datum = moment($scope.datum).subtract(1, 'days').format('YYYY-MM-DD').toString();
 			}else{
-				console.log('ken niet eerder');
+				//console.log('ken niet eerder');
 			}
 		}else{
 			if(moment($scope.datum).add(1, 'days').isBefore(moment())){
@@ -35,7 +38,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 	$scope.setData = function(dedatum){
 		$scope.datum = dedatum; // startdatum
 		$scope.dag = moment(dedatum).format('D MMMM');
-		console.log($scope.dag);
 		$scope.error = {};
 		ServerData.getDay(dedatum).then(
 			function(data){
@@ -391,7 +393,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 				              },
 
 							    is3D: false,
-							    // width:"100%",
+							    width:"1200px",
 							    colors:['green'],
 						        chartArea: {left:0,top:0,bottom:0,height:"90%", width:"100%"}
 		    };
@@ -406,7 +408,6 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 		    	chart1.data.push([moment(value.month).format('M-\'YY'),parseFloat(value.monthly_total)]);
 				data_edit[key].month = moment(value.month).format('MMM YYYY');
 			})
-			console.log(chart1.data);
 		    chart1.options.hAxis.viewWindow.max = chart1.data.length;
 		    $scope.chartmonth = chart1;
 
